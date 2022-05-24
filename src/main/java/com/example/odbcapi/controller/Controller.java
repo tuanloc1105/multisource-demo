@@ -50,10 +50,3 @@ public class Controller extends BaseController {
     }
 
 }
-
-//,
-//        "param":{
-//        "id": "",
-//        "name": "",
-//        "age": ""
-//        }
