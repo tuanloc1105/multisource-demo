@@ -1,14 +1,15 @@
 package com.example.odbcapi.controller;
 
-import com.example.odbcapi.pattern.DataFactory;
+import com.example.odbcapi.message.request.ProcessRequest;
+import com.example.odbcapi.pattern.source.DataFactory;
+import com.example.odbcapi.pattern.source.Source;
 import com.example.odbcapi.service.ContactServiceMysql;
 import com.example.odbcapi.service.ContactServicePostgres;
-import com.example.odbcapi.value.SourceType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,12 +25,19 @@ public class Controller extends BaseController {
     private final ContactServicePostgres contactServicePostgres;
     private final DataFactory dataFactory;
 
-    @GetMapping("/get-data/{source}")
-    public Object getData(@PathVariable(name = "source") SourceType sourceType,
+    @GetMapping("/get-data")
+    public Object getData(@RequestBody ProcessRequest request,
                           @RequestHeader(name = "Authorization") String token) throws Exception {
         this.validate(token);
-//        return dataFactory.getSource(sourceType).getAllData();
-        return null;
+        Source source = this.dataFactory.getSource(request.getSourceType());
+        switch (request.getBehavior()) {
+            case GET:
+                return source.getData(request.getParam());
+            case INSERT:
+                return source.addData(request.getParam());
+            default:
+                return null;
+        }
     }
 
     @PostMapping("/authen")
@@ -42,3 +50,10 @@ public class Controller extends BaseController {
     }
 
 }
+
+//,
+//        "param":{
+//        "id": "",
+//        "name": "",
+//        "age": ""
+//        }

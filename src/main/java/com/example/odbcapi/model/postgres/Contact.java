@@ -1,4 +1,4 @@
-package com.example.odbcapi.model.mysql.customer;
+package com.example.odbcapi.model.postgres;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

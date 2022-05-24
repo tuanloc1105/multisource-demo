@@ -1,4 +1,4 @@
-package com.example.odbcapi.pattern;
+package com.example.odbcapi.pattern.source;
 
 import com.example.odbcapi.value.SourceType;
 import org.springframework.beans.factory.annotation.Autowired;
