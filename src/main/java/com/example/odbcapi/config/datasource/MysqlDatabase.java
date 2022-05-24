@@ -1,6 +1,6 @@
 package com.example.odbcapi.config.datasource;
 
-import com.example.odbcapi.constant.Constants;
+import com.example.odbcapi.value.Constants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,39 +14,39 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 
 @Configuration
-public class OrderDatabase {
-    @Value("${spring.datasource.order.url}")
-    private String orderUrl;
+public class MysqlDatabase {
+    @Value("${spring.datasource.mysql.url}")
+    private String mysqlUrl;
 
-    @Value("${spring.datasource.order.username}")
-    private String orderUsername;
+    @Value("${spring.datasource.mysql.username}")
+    private String mysqlUsername;
 
-    @Value("${spring.datasource.order.password}")
-    private String orderPassword;
+    @Value("${spring.datasource.mysql.password}")
+    private String mysqlPassword;
 
-    @Value("${spring.datasource.order.driver-class-name}")
+    @Value("${spring.datasource.mysql.driver-class-name}")
     private String driverClassName;
 
     @Bean
-    public DataSource orderDatasources() {
+    public DataSource mysqlDatasources() {
 
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(driverClassName);
-        dataSource.setUrl(orderUrl);
-        dataSource.setUsername(orderUsername);
-        dataSource.setPassword(orderPassword);
+        dataSource.setUrl(mysqlUrl);
+        dataSource.setUsername(mysqlUsername);
+        dataSource.setPassword(mysqlPassword);
 
         return dataSource;
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean orderEntityManager() {
+    public LocalContainerEntityManagerFactoryBean mysqlEntityManager() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(orderDatasources());
+        em.setDataSource(mysqlDatasources());
 
         // Scan Entities in Package:
-        em.setPackagesToScan(new String[]{Constants.PACKAGE_ENTITIES_2});
-        em.setPersistenceUnitName(Constants.JPA_UNIT_NAME_ORDER); // Important !!
+        em.setPackagesToScan(Constants.PACKAGE_ENTITIES_MYSQL);
+        em.setPersistenceUnitName(Constants.JPA_UNIT_NAME_MYSQL); // Important !!
 
         //
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -66,10 +66,10 @@ public class OrderDatabase {
     }
 
     @Bean
-    public PlatformTransactionManager orderTransactionManager() {
+    public PlatformTransactionManager mysqlTransactionManager() {
 
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(orderEntityManager().getObject());
+        transactionManager.setEntityManagerFactory(mysqlEntityManager().getObject());
         return transactionManager;
     }
 }

@@ -1,6 +1,6 @@
 package com.example.odbcapi.config.datasource;
 
-import com.example.odbcapi.constant.Constants;
+import com.example.odbcapi.value.Constants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,41 +14,41 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 
 @Configuration
-public class CustomerDatabase {
+public class PostgresDatabase {
 
 
-    @Value("${spring.datasource.customer.url}")
-    private String customerUrl;
+    @Value("${spring.datasource.postgres.url}")
+    private String postgresUrl;
 
-    @Value("${spring.datasource.customer.username}")
-    private String customerUsername;
+    @Value("${spring.datasource.postgres.username}")
+    private String postgresUsername;
 
-    @Value("${spring.datasource.customer.password}")
-    private String customerPassword;
+    @Value("${spring.datasource.postgres.password}")
+    private String postgresPassword;
 
-    @Value("${spring.datasource.customer.driver-class-name}")
+    @Value("${spring.datasource.postgres.driver-class-name}")
     private String driverClassName;
 
     @Bean
-    public DataSource customerDatasources() {
+    public DataSource postgresDatasources() {
 
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(driverClassName);
-        dataSource.setUrl(customerUrl);
-        dataSource.setUsername(customerUsername);
-        dataSource.setPassword(customerPassword);
+        dataSource.setUrl(postgresUrl);
+        dataSource.setUsername(postgresUsername);
+        dataSource.setPassword(postgresPassword);
 
         return dataSource;
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean customerEntityManager() {
+    public LocalContainerEntityManagerFactoryBean postgresEntityManager() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(customerDatasources());
+        em.setDataSource(postgresDatasources());
 
         // Scan Entities in Package:
-        em.setPackagesToScan(new String[]{Constants.PACKAGE_ENTITIES_CUSTOMER});
-        em.setPersistenceUnitName(Constants.JPA_UNIT_NAME_CUSTOMER); // Important !!
+        em.setPackagesToScan(Constants.PACKAGE_ENTITIES_POSTGRES);
+        em.setPersistenceUnitName(Constants.JPA_UNIT_NAME_POSTGRES); // Important !!
 
         //
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -68,10 +68,10 @@ public class CustomerDatabase {
     }
 
     @Bean
-    public PlatformTransactionManager customerTransactionManager() {
+    public PlatformTransactionManager postgresTransactionManager() {
 
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(customerEntityManager().getObject());
+        transactionManager.setEntityManagerFactory(postgresEntityManager().getObject());
         return transactionManager;
     }
 }

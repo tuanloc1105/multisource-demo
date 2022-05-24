@@ -1,4 +1,4 @@
-package com.example.odbcapi;
+package com.example.odbcapi.value;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

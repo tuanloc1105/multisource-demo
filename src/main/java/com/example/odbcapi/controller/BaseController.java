@@ -1,6 +1,6 @@
 package com.example.odbcapi.controller;
 
-import com.example.odbcapi.Jwt;
+import com.example.odbcapi.value.Jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.example.odbcapi.model.customer;
+package com.example.odbcapi.model.postgres.customer;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,11 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "customer")
+@Table(name = "contact")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer {
+public class Contact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

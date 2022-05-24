@@ -1,6 +1,6 @@
 package com.example.odbcapi.pattern;
 
-import com.example.odbcapi.SourceType;
+import com.example.odbcapi.value.SourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -8,17 +8,17 @@ import org.springframework.stereotype.Component;
 public class DataFactory {
 
     @Autowired
-    private CustomerData customerData;
+    private MysqlData mysqlData;
 
     @Autowired
-    private OrderData orderData;
+    private PostgresData postgresData;
 
     public Source getSource(SourceType type) throws Exception {
         switch (type) {
-            case ORDER:
-                return orderData;
-            case CUSTOMER:
-                return customerData;
+            case POSTGRES:
+                return postgresData;
+            case MYSQL:
+                return mysqlData;
             default:
                 throw new Exception("Unknown source");
         }

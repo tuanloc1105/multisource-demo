@@ -1,4 +1,4 @@
-package com.example.odbcapi.model.order;
+package com.example.odbcapi.model.mysql.customer;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,11 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "order")
+@Table(name = "contact")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order {
+public class Contact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +25,6 @@ public class Order {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "quality", nullable = false)
-    private Integer quality;
-
+    @Column(name = "age", nullable = false)
+    private Integer age;
 }
