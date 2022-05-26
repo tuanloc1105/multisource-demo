@@ -33,7 +33,7 @@ public class ContactServicePostgres {
     @PersistenceContext(unitName = Constants.JPA_UNIT_NAME_POSTGRES)
     private EntityManager entityManager;
 
-    public ProcessResponse addNewContact(Param param) {
+    public ProcessResponse addNew(Param param) {
         try {
             String sql = "INSERT INTO public.Contact(name, age) VALUES (:name, :age) RETURNING *";
             Query query = entityManager.createNativeQuery(sql, Contact.class);
@@ -42,6 +42,13 @@ public class ContactServicePostgres {
         } catch (Exception e) {
             return new ProcessResponse(ProcessStatus.FAILURE, e.getMessage(), null);
         }
+    }
+
+    public ProcessResponse addNewContact(Param param) {
+        Contact contact = new Contact();
+        contact.setName(param.getName());
+        contact.setAge(param.getAge());
+        return new ProcessResponse(ProcessStatus.OK, null, contactPostgresRepository.save(contact));
     }
 
     public List<Contact> getAll() {
@@ -66,14 +73,10 @@ public class ContactServicePostgres {
                 }
                 String processSql = String.format(sql, idCondition, nameCondition, ageCondition).strip();
                 String finalSql = processSql.substring(0, processSql.length() - 3);
-                System.out.println(finalSql);
                 Query query = entityManager.createNativeQuery(finalSql, Contact.class);
                 return new ProcessResponse(ProcessStatus.OK, null, (List<Contact>) query.getResultList());
             }
-            contactPostgresRepository.findAll();
-            String sql = "SELECT * FROM public.contact";
-            Query query = entityManager.createNativeQuery(sql, Contact.class);
-            return new ProcessResponse(ProcessStatus.OK, null, (List<Contact>) query.getResultList());
+            return new ProcessResponse(ProcessStatus.OK, null, contactPostgresRepository.findAll());
         } catch (Exception e) {
             return new ProcessResponse(ProcessStatus.FAILURE, e.getMessage(), null);
         }

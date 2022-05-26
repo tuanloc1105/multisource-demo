@@ -33,7 +33,7 @@ public class ContactServiceMysql {
     @PersistenceContext(unitName = Constants.JPA_UNIT_NAME_MYSQL)
     private EntityManager entityManager;
 
-    public ProcessResponse addNewContact(Param param) {
+    public ProcessResponse addNew(Param param) {
         try {
             String sql = "INSERT INTO `contact`(name, age) VALUES (:name, :age)";
             Query query = entityManager.createNativeQuery(sql, Contact.class).setParameter("name", param.getName()).setParameter("age", param.getAge());
@@ -43,6 +43,13 @@ public class ContactServiceMysql {
         } catch (Exception e) {
             return new ProcessResponse(ProcessStatus.FAILURE, e.getMessage(), null);
         }
+    }
+
+    public ProcessResponse addNewContact(Param param) {
+        Contact contact = new Contact();
+        contact.setName(param.getName());
+        contact.setAge(param.getAge());
+        return new ProcessResponse(ProcessStatus.OK, null, contactMysqlRepository.save(contact));
     }
 
     public List<Contact> getAll() {
@@ -70,10 +77,7 @@ public class ContactServiceMysql {
                 Query query = entityManager.createNativeQuery(finalSql, Contact.class);
                 return new ProcessResponse(ProcessStatus.OK, null, (List<Contact>) query.getResultList());
             }
-            contactMysqlRepository.findAll();
-            String sql = "SELECT * FROM `contact`";
-            Query query = entityManager.createNativeQuery(sql, Contact.class);
-            return new ProcessResponse(ProcessStatus.OK, null, (List<Contact>) query.getResultList());
+            return new ProcessResponse(ProcessStatus.OK, null, contactMysqlRepository.findAll());
         } catch (Exception e) {
             return new ProcessResponse(ProcessStatus.FAILURE, e.getMessage(), null);
         }
