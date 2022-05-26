@@ -3,6 +3,7 @@ package com.example.odbcapi.service;
 import com.example.odbcapi.message.Param;
 import com.example.odbcapi.message.response.ProcessResponse;
 import com.example.odbcapi.model.postgres.Contact;
+import com.example.odbcapi.repository.postgres.ContactPostgresRepository;
 import com.example.odbcapi.value.Constants;
 import com.example.odbcapi.value.ProcessStatus;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ import java.util.List;
 public class ContactServicePostgres {
 
     private final ApplicationContext context;
+    private final ContactPostgresRepository contactPostgresRepository;
 
     @Autowired
     @Qualifier("postgresEntityManager")
@@ -68,6 +70,7 @@ public class ContactServicePostgres {
                 Query query = entityManager.createNativeQuery(finalSql, Contact.class);
                 return new ProcessResponse(ProcessStatus.OK, null, (List<Contact>) query.getResultList());
             }
+            contactPostgresRepository.findAll();
             String sql = "SELECT * FROM public.contact";
             Query query = entityManager.createNativeQuery(sql, Contact.class);
             return new ProcessResponse(ProcessStatus.OK, null, (List<Contact>) query.getResultList());

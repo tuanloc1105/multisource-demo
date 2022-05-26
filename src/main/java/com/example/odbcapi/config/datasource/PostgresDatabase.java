@@ -4,6 +4,7 @@ import com.example.odbcapi.value.Constants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -14,6 +15,11 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 
 @Configuration
+@EnableJpaRepositories(
+        basePackages = "com.example.odbcapi.repository.postgres",
+        entityManagerFactoryRef = "postgresEntityManager",
+        transactionManagerRef = "postgresTransactionManager"
+)
 public class PostgresDatabase {
 
 
