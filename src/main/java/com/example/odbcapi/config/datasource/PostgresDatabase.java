@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = "com.example.odbcapi.repository.postgres",
+        basePackages = "com.example.odbcapi.repository.postgres", // repository package
         entityManagerFactoryRef = "postgresEntityManager",
         transactionManagerRef = "postgresTransactionManager"
 )
