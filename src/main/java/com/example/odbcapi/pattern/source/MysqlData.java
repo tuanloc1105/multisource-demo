@@ -18,7 +18,7 @@ public class MysqlData implements Source {
     }
 
     @Override
-    public Object addData(Param param) {
+    public ProcessResponse addData(Param param) {
         return contactServiceMysql.addNewContact(param);
     }
 }

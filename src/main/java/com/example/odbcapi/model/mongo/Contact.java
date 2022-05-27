@@ -24,4 +24,8 @@ public class Contact {
     @Field(name = "age")
     private Integer age;
 
+    public boolean isNew() {
+        return this.getId() == null;
+    }
+
 }

@@ -13,12 +13,17 @@ public class DataFactory {
     @Autowired
     private PostgresData postgresData;
 
+    @Autowired
+    private MongoData mongoData;
+
     public Source getSource(SourceType type) throws Exception {
         switch (type) {
             case POSTGRES:
                 return postgresData;
             case MYSQL:
                 return mysqlData;
+            case MONGO:
+                return mongoData;
             default:
                 throw new Exception("Unknown source");
         }
