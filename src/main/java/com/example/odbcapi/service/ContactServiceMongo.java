@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ContactServiceMongo {
 
-    private ContactMongoRepository contactMongoRepository;
+    private final ContactMongoRepository contactMongoRepository;
 
     public ProcessResponse addNew(Param param) {
         Contact contact = new Contact();
