@@ -19,6 +19,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
+import static com.example.odbcapi.repository.postgres.ContactPostgresRepository.ContactPostgresSpecifications.hasAge;
+import static com.example.odbcapi.repository.postgres.ContactPostgresRepository.ContactPostgresSpecifications.hasName;
+import static org.springframework.data.jpa.domain.Specification.where;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -81,6 +85,12 @@ public class ContactServicePostgres {
             return new ProcessResponse(ProcessStatus.FAILURE, e.getMessage(), null);
         }
 
+    }
+
+    public ProcessResponse getContactByNameAndAge(String name, int age) {
+        return new ProcessResponse(ProcessStatus.OK,
+                null,
+                this.contactPostgresRepository.findAll(where(hasName(name)).and(hasAge(age))));
     }
 
 }
