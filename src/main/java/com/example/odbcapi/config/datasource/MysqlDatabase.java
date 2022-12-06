@@ -1,6 +1,7 @@
 package com.example.odbcapi.config.datasource;
 
 import com.example.odbcapi.value.Constants;
+import org.hibernate.cfg.AvailableSettings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -62,9 +63,10 @@ public class MysqlDatabase {
         HashMap<String, Object> properties = new HashMap<>();
 
         // JPA & Hibernate
-        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-        properties.put("hibernate.show-sql", true);
-        properties.put("hibernate.temp.use_jdbc_metadata_defaults", false);
+        properties.put(AvailableSettings.DIALECT, "org.hibernate.dialect.MySQL5InnoDBDialect");
+        properties.put(AvailableSettings.SHOW_SQL, true);
+        properties.put(AvailableSettings.HBM2DDL_AUTO, "create");
+        properties.put(AvailableSettings.PHYSICAL_NAMING_STRATEGY, "org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl");
 
         em.setJpaPropertyMap(properties);
         em.afterPropertiesSet();
